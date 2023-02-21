@@ -104,6 +104,14 @@ BehaviorTreeEngine::resetGrootMonitor()
   }
 }
 
+void
+BehaviorTreeEngine::addFileLogger(
+    BT::Tree * tree,
+    const std::string & file_name)
+{
+  file_logger_ = std::make_unique<BT::FileLogger>(*tree, file_name.c_str());
+}
+
 // In order to re-run a Behavior Tree, we must be able to reset all nodes to the initial state
 void
 BehaviorTreeEngine::haltAllActions(BT::TreeNode * root_node)

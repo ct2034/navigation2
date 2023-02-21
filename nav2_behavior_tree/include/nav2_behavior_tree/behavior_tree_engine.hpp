@@ -23,6 +23,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/xml_parsing.h"
+#include <behaviortree_cpp_v3/loggers/bt_file_logger.h>
 #include "behaviortree_cpp_v3/loggers/bt_zmq_publisher.h"
 
 
@@ -102,6 +103,15 @@ public:
   void resetGrootMonitor();
 
   /**
+   * @brief Function to add a File logger to the BT
+   * @param tree BT to add logger to
+   * @param file_name Name of the log file
+   */
+  void addFileLogger(
+    BT::Tree * tree,
+    const std::string & file_name);
+
+  /**
    * @brief Function to explicitly reset all BT nodes to initial state
    * @param root_node Pointer to BT root node
    */
@@ -112,6 +122,7 @@ protected:
   BT::BehaviorTreeFactory factory_;
 
   static inline std::unique_ptr<BT::PublisherZMQ> groot_monitor_;
+  static inline std::unique_ptr<BT::FileLogger> file_logger_;
 };
 
 }  // namespace nav2_behavior_tree

@@ -68,6 +68,12 @@ BtActionServer<ActionT>::BtActionServer(
   if (!node->has_parameter("groot_zmq_server_port")) {
     node->declare_parameter("groot_zmq_server_port", 1667);
   }
+  if (!node->has_parameter("enable_fbl_logging")) {
+    node->declare_parameter("enable_fbl_logging", false);
+  }
+  if (!node->has_parameter("fbl_log_filename")) {
+    node->declare_parameter("fbl_log_filename", "/tmp/bt_trace.fbl");
+  }
 }
 
 template<class ActionT>
@@ -106,6 +112,10 @@ bool BtActionServer<ActionT>::on_configure()
   node->get_parameter("enable_groot_monitoring", enable_groot_monitoring_);
   node->get_parameter("groot_zmq_publisher_port", groot_zmq_publisher_port_);
   node->get_parameter("groot_zmq_server_port", groot_zmq_server_port_);
+
+  // Get parameter for logging to fbl file
+  node->get_parameter("enable_fbl_logging", enable_fbl_logging_);
+  node->get_parameter("fbl_log_filename", fbl_log_filename_);
 
   // Get parameters for BT timeouts
   int timeout;
@@ -202,6 +212,11 @@ bool BtActionServer<ActionT>::loadBehaviorTree(const std::string & bt_xml_filena
     } catch (const std::logic_error & e) {
       RCLCPP_ERROR(logger_, "ZMQ already enabled, Error: %s", e.what());
     }
+  }
+
+  // Enable logging to file
+  if (enable_fbl_logging_) {
+    bt_->addFileLogger(&tree_, "/tmp/bt_trace.fbl");
   }
 
   return true;

@@ -236,6 +236,10 @@ protected:
   int groot_zmq_publisher_port_;
   int groot_zmq_server_port_;
 
+  // Parameters for BT logging
+  bool enable_fbl_logging_;
+  std::string fbl_log_filename_;
+
   // User-provided callbacks
   OnGoalReceivedCallback on_goal_received_callback_;
   OnLoopCallback on_loop_callback_;

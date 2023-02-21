@@ -216,7 +216,7 @@ bool BtActionServer<ActionT>::loadBehaviorTree(const std::string & bt_xml_filena
 
   // Enable logging to file
   if (enable_fbl_logging_) {
-    bt_->addFileLogger(&tree_, "/tmp/bt_trace.fbl");
+    bt_->addFileLogger(&tree_, fbl_log_filename_);
   }
 
   return true;
